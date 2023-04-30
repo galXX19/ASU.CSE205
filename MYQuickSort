@@ -1,0 +1,38 @@
+public class MySorts {
+   // implement your quicksort algorithm below
+   public static void quicksort(IList<Integer> input){
+      int beg = 0;
+      int end = input.size() - 1;
+      quicksortHelper(input, beg, end);
+   }
+   
+   private static void quicksortHelper(IList<Integer> input, int beg, int end) {
+      if (beg < end) {
+         int pindex = partition(input, beg, end);
+         quicksortHelper(input, beg, pindex-1);
+         quicksortHelper(input, pindex+1, end);
+      }
+   }
+   
+   private static int partition(IList<Integer> input, int beg, int end) {
+      int pivot = input.get(end);
+      int i = (beg-1);
+        
+      for (int j = beg; j < end; j++) {
+         if (input.get(j) <= pivot) {
+            i++;
+            swap(input, i, j);
+         }
+      }
+      
+      swap(input, i+1, end);
+      return i+1;
+    }
+    
+   private static void swap(IList<Integer> input, int i, int j){
+      int temp = input.get(i);
+      input.set(i, input.get(j));
+      input.set(j, temp);
+   }
+   
+}
