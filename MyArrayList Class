@@ -1,0 +1,100 @@
+// Complete the implementation of your MyArrayList class in this file
+import java.util.NoSuchElementException;
+
+public class MyArrayList implements MyList {
+    // Implement the required fields and methods here
+   private int capacity = 8;
+   private int size = 0;
+   private Object[] storage = new Object[capacity];
+   
+   public void addToEnd(Object item) {
+      if (size == capacity) {
+         makeCapacity(2 * capacity);
+      }
+      
+      storage[size] = item;
+      size++;
+   }
+   
+   public void insertAt(int index, Object item) {
+      
+      if (index < 0 || index > size) {
+			throw new NoSuchElementException();
+      }
+      
+      if (size == capacity) {
+         makeCapacity(2 * capacity);
+      }
+
+      for (int i = size; i > index; i--) {
+			storage[i] = storage[i-1];
+      }
+         
+      storage[index] = item;
+      size++;
+   }	
+   
+   public void removeAt(int index) {
+      
+      if (index < 0 || index >= size) {
+			throw new NoSuchElementException();
+      }
+      
+      for (int i = index; i < size - 1; i++) {
+		   storage[i] = storage[i+1];
+		}
+         
+      size--;
+   }
+   
+   public Object getAt(int index) {
+      
+      if (index < 0 || index >= size) {
+			throw new NoSuchElementException();
+      }
+      
+      return storage[index];
+   }
+   
+   public int getSize() { return size; }
+
+   public void makeCapacity(int minCapacity) {
+      
+      if (minCapacity != capacity && minCapacity >= size) {
+         capacity = minCapacity > 8? minCapacity : 8;
+         Object[] temp = new Object[capacity];
+         
+         for (int i = 0; i < size; i++) {
+            temp[i] = storage[i];
+         }
+         
+         storage = temp;
+      }  
+   }
+   
+   public void trimExcess() {
+      makeCapacity(size);
+   }
+    
+   
+    // Do not alter the code below 
+    @Override
+    public MyListIterator getIterator() {
+        return new MyArrayListIterator();
+    }
+    
+    private class MyArrayListIterator implements MyListIterator {
+        int currentIndex = -1;
+
+        @Override
+        public Object next() {
+            ++currentIndex;
+            return storage[currentIndex];
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex < size - 1;
+        }
+    }   
+}
