@@ -1,0 +1,70 @@
+public class MySorts {
+public static void mergesort(IList<Integer> list) {
+        mergesortHelper(list);
+    }
+
+    private static IList<Integer> mergesortHelper(IList<Integer> list) {
+        if (list.size() <=1){
+            return list;
+        }
+        if (list.size() == 2){
+            if (list.get(0) > list.get(1)) {
+                list.set(0, list.get(1));
+                list.set(1, list.get(0));
+            }
+        }
+
+        IList<Integer> temp1 = mergesortHelper( getLeftHalf(list) );
+        IList<Integer> temp2 = mergesortHelper( getRightHalf(list) );
+
+        return merge(temp1, temp2);
+    }
+    
+    private static IList<Integer> getLeftHalf(IList<Integer> list) {
+        int midIndex = list.size()/2;
+        IList<Integer> newList = new MyArrayList<Integer>();
+        
+        for(int i=0; i<= midIndex-1; i++)
+             newList.add(list.get(i));
+        
+        return newList;
+    }
+    
+    private static IList<Integer> getRightHalf(IList<Integer> list) {
+        int midIndex = list.size()/2;
+        IList<Integer> newList = new MyArrayList<Integer>();
+        
+        for(int i=midIndex; i<= list.size()-1; i++)
+            newList.add(list.get(i));
+
+        return newList;
+    }
+    
+    private static IList<Integer> merge(IList<Integer> list1, IList<Integer> list2) {
+        int ptr1 = 0, ptr2 = 0;
+        IList<Integer> newList = new MyArrayList<Integer>();
+        
+        while(ptr1 <list1.size() && ptr2 < list2.size()) {
+            if (list1.get(ptr1) < list2.get(ptr2)) {
+                newList.add(list1.get(ptr1));
+                ptr1++;
+            }
+            else {
+                newList.add(list2.get(ptr2));
+                ptr2++;
+            }
+        }
+        
+        while (ptr1 < list1.size()) {
+            newList.add(list1.get(ptr1));
+            ptr1++;
+        }
+
+        while (ptr2 < list2.size()) {
+            newList.add(list2.get(ptr2));
+            ptr2++;
+        }
+        
+        return newList;
+    }
+    }
