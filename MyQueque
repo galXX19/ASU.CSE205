@@ -1,0 +1,77 @@
+// Complete the implementation of your MyArrayList class in this file
+import java.util.NoSuchElementException;
+
+public class MyQueue implements IQueue {
+	// add any necessary variables here
+   private Node head;
+   private Node tail;
+   private int size;
+   
+   private class Node {
+      Object data;
+      Node next;
+   
+      Node(Object data) {
+         this.data = data;
+      }
+   }
+
+	@Override
+	public void enqueue(Object item) {
+      Node node = new Node(item);
+        if (head == null) {
+            head = node;
+            tail = node;
+        } else {
+            tail.next = node;
+            tail = node;
+        }
+        size++;
+	}
+
+	@Override
+	public Object dequeue() {
+      if (head == null) {
+            throw new NoSuchElementException();
+        }
+        Object data = head.data;
+        head = head.next;
+        size--;
+        return data;
+	}
+
+	@Override
+	public Object peek() {
+      if (head == null) {
+            throw new NoSuchElementException();
+        }
+        return head.data;
+	}
+
+	@Override
+	public int indexOf(Object item) {
+      Node current = head;
+        int index = 0;
+        while (current != null) {
+            if (current.data.equals(item)) {
+                return index;
+            }
+            current = current.next;
+            index++;
+        }
+        return -1;
+	}
+
+	@Override
+	public int size() {
+      return size;
+	}
+
+	@Override
+	public boolean isEmpty() {
+      return (size == 0);
+	}
+
+	// add any necessary methods or classes below
+
+}
